@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const Bookings = () => {
+  const navigate = useNavigate()
+  const [success, setSuccess] = useState('')
+  const [error, setError] = useState('')
   const { id } = useParams()
   const [event, setEvent] = useState({})
-  const [formData, setFormData] = useState({ eventId: id, fullname: '', email: '', phone: '', ticketCount: 1, notes: '', city: '', postalcode: '', country: '' })
+  const [formData, setFormData] = useState({ eventId: id, fullName: '', email: '', phoneNumber: '', ticketCount: 1, notes: '', city: '', postalCode: '', country: '' })
 
+
+  //ChatGPT fixed the more complex fail-safe fetch logic
   useEffect(() => {
     if (id) {
       const getEvent = async () => {
@@ -30,7 +35,7 @@ const Bookings = () => {
     const { name, value } = e.target
     setFormData(f => ({
       ...f,
-      [name]: name === 'tickets' ? Number(value) : value
+      [name]: name === 'ticketCount' ? Number(value) : value
     }))
   }
 
@@ -44,27 +49,42 @@ const Bookings = () => {
         body: JSON.stringify(bookingData),
       })
       if (!res.ok) {
-        throw new Error('Failed to book event')
-      }
-      return await res.json()
-    } catch (error) {
-      console.error('Booking failed', error)
+      let errorMsg = 'Failed to book event';
+      try {
+        const errorData = await res.json();
+        errorMsg = errorData.message || JSON.stringify(errorData);
+      } catch {}
+      throw new Error(errorMsg);
     }
+    return await res.json();
+  } catch (error) {
+    throw error;
   }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await postbooking(formData)
+    setSuccess('')
+    setError('')
+    try {
+    await postbooking(formData);
+    setSuccess('Booking successful!');
+    navigate('/events');
+  } catch (err) {
+    setError(err.message || 'Booking failed. Please try again.');
   }
+};
 
   return (
   <div className='Bookings-container'>
     <h1>Book event here - {event.name}</h1>
+    {success && <div style={{ color: 'green' }}>{success}</div>}
+    {error && <div style={{ color: 'red' }}>{error}</div>}
     <div className='Bookings-form'>
       <form onSubmit={handleSubmit}>
         <div className=''>
           <label>Full Name</label>
-          <input className='Input-field' type='text' id='fullname' name='fullname' required value={formData.fullname} onChange={handleChange}/>
+          <input className='Input-field' type='text' id='fullName' name='fullName' required value={formData.fullName} onChange={handleChange}/>
         </div>
         <div>
           <label>Email</label>
@@ -72,7 +92,7 @@ const Bookings = () => {
         </div>
         <div>
           <label>Phone</label>
-          <input className='Input-field' type='tel' id='phone' name='phone' required value={formData.phone} onChange={handleChange}/>
+          <input className='Input-field' type='tel' id='phoneNumber' name='phoneNumber' required value={formData.phoneNumber} onChange={handleChange}/>
         </div>
         <div>
           <label>Number of Tickets</label>
@@ -82,13 +102,13 @@ const Bookings = () => {
           <label>Extra info</label>
           <textarea className='Input-textarea' id='notes' name='notes' value={formData.notes} onChange={handleChange} />
         </div>
-        <di >
+        <div >
           <label>City</label>
           <input className='Input-field' id='city' name='city' value={formData.city} onChange={handleChange} />
-        </di>
-        <div >
+        </div>
+        <div>
           <label>Postalcode</label>
-          <input className='Input-field' id='postalcode' name='postalcode' value={formData.postalcode} onChange={handleChange} />
+          <input className='Input-field' id='postalCode' name='postalCode' value={formData.postalCode} onChange={handleChange} />
         </div>
         <div>
           <label>Country</label>
