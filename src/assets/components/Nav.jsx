@@ -1,13 +1,15 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 export const Nav = () => {
     return (
     <nav className='Nav-container'>
       <div className='Nav-content'>
         <div className='Ventixe_logo_container'>
+          <NavLink to="/dashboard" className='Ventixe_logo_link'>
           <img className='Ventixe_logo' src="/Images/Ventixe_Logo.svg" alt="Ventixe_logo" />
           <span className='Ventixe_title'>Ventixe</span>
+          </NavLink>
         </div>
         <div className='Nav_container_items'>
           <ul>
@@ -16,6 +18,7 @@ export const Nav = () => {
                 to="/dashboard/events"
                 className={({ isActive }) => `Nav_item${isActive ? ' active' : ''}`}
               >
+                
                 <img className='Ventixe_logo' src="/Images/Event_Logo.svg" alt="Ventixe_logo" />
                 <span>Events</span>
               </NavLink>

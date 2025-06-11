@@ -515,3 +515,19 @@ footer {
     color: var(--secondary-100);
     background-color: var(--cool-grey-10);
 }
+
+/* Calendar */
+
+.Calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    
+}
+
+.Calendar-card {
+    height: 112px;
+    width: 100%;
+    background-color: var(--cool-grey-10);
+    outline: var(--cool-grey-30) solid 1px;
+
+}
