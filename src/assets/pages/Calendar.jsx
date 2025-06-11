@@ -2,8 +2,10 @@ import React from 'react'
 
 export default function Calendar() {
   return (
-    <div>
-      Calendar
+    <div className='Calendar-container'>
+      <div>
+        Calendar
+      </div>
     </div>
   )
 }
