@@ -41,6 +41,15 @@ export const Nav = () => {
                 <span>Calendar</span>
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/dashboard/inbox"
+                className={({ isActive }) => `Nav_item${isActive ? ' active' : ''}`}
+              >
+                <img className='Ventixe_logo' src="/Images/Inbox_Icon.svg" alt="Ventixe_logo" />
+                <span>Inbox</span>
+              </NavLink>
+            </li>
           </ul>
         </div>
       </div>

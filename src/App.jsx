@@ -9,6 +9,7 @@ import SignUp from './assets/pages/SignUp'
 import Events from './assets/pages/Events'
 import Calendar from './assets/pages/Calendar';
 import { EventDetailsPage } from './assets/pages/EventDetailsPage';
+import { Inbox } from './assets/pages/Inbox';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
     <Route path="/dashboard/calendar" element={<Calendar />} />
     <Route path="/events/:id" element={<EventDetailsPage />} />
     <Route path="/dashboard/bookings/:id" element={<Bookings />} />
+    <Route path="/dashboard/inbox" element={<Inbox />} />
   </Route>
 
   

@@ -15,7 +15,6 @@ export default function Calendar() {
         {day}
         </div>
         ))}
-        Calendar
       </div>
     </div>
   )
